@@ -20,7 +20,7 @@ public class CSPSolver {
                 // Get variable data, initialize, and put into map
                 String[] split = line.split(":");
                 String name = split[0];
-                String[] stringValues = line.split("\\s+"); // split at whitespaces
+                String[] stringValues = split[1].trim().split("\\s+"); // split at whitespaces
                 ArrayList<Integer> values = new ArrayList<Integer>();
                 for(String v : stringValues) {
                     values.add(Integer.parseInt(v));
