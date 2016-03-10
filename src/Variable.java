@@ -10,6 +10,7 @@ public class Variable implements Comparable<Variable> {
     Variable(String newName, ArrayList<Integer> newValues) {
         this.name = newName;
         this.values = newValues;
+        this.assignment = null;
     }
     
     public void assign(int x) {

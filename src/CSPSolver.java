@@ -95,7 +95,21 @@ public class CSPSolver {
     }
 
 	private String returnMostConstraining(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key1, String key2) {
-		// TODO Auto-generated method stub
+		Variable var1 = vars.get(key1);
+		Variable var2 = vars.get(key2);
+		
+		int var1Count = 0;
+		int var2Count = 0;
+		//These ints hold how many constraings each Variable features in, in which it constrains a currently unassigned variable
+		
+		for(Constraint c : ArrayList<Constraint> cons){
+			if( (c.getLhs == var1 && (vars.get((c.getLhs).getName)).getAssignment == null) || (RHS of c is var1 and LHS of c is unassigned)){
+				
+			}
+			else if((LHS of c is var1 and RHS of c is unassigned) || (RHS of c is var1 and LHS of c is unassigned)){
+				
+			}
+		}
 		return null;
 	}
     
