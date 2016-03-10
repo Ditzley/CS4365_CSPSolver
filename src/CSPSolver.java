@@ -94,8 +94,7 @@ public class CSPSolver {
     	return mostConstrained;
     }
 
-	private String returnMostConstraining(TreeMap<String, Variable> vars2,
-			ArrayList<Constraint> cons2, String mostConstrained, String key) {
+	private String returnMostConstraining(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
