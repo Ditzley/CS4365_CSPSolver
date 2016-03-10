@@ -12,8 +12,7 @@ public class CSPSolver {
     public static void main(String[] args) {
         // Variables
         vars = new TreeMap<String, Variable>();
-        //String varFile = args[0];
-        String varFile = "ex1.var";
+        String varFile = args[0];
         try {
             BufferedReader br = new BufferedReader(new FileReader(varFile));
             String line;
@@ -36,8 +35,7 @@ public class CSPSolver {
         
         // Constraints
         cons = new ArrayList<Constraint>();
-        //String conFile = args[1];
-        String conFile = "ex1.con";
+        String conFile = args[1];
         try {
             BufferedReader br = new BufferedReader(new FileReader(conFile));
             String line;
@@ -63,8 +61,7 @@ public class CSPSolver {
         }
         
         // Forward Checking or Not
-		//boolean forwardChecking = (args[2] == "fc");
-        boolean forwardChecking = false;
+		boolean forwardChecking = (args[2] == "fc");
     }
     
 }
