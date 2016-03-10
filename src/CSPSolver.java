@@ -94,7 +94,7 @@ public class CSPSolver {
     	return mostConstrained;
     }
 
-	private String returnMostConstraining(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key1, String key2) {
+	String returnMostConstraining(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key1, String key2) {
 		Variable var1 = vars.get(key1);
 		Variable var2 = vars.get(key2);
 		
@@ -135,6 +135,39 @@ public class CSPSolver {
 			return key2;
 		}
 	}
+	
+	/* Least Constraining Value Logic
+	 * Note: The variable we are currently assigning a value to will arbitrarily be called v
+	 * 1. Determine all values of v which are currently valid to assign to it
+	 * 	- This will exist as another, seperate function, because it will also be useful for doing forward checking
+	 * 2. Identify all constraints which contain both v and another, unassigned variable
+	 * 3. For all possible values of v, for all constraints satisfying rule 2
+	 * 	- See how many values of the other, unassigned value become invalid if v is given the chosen value
+	 * 4. Assign v the value which is the least constraining
+	 */
     
+	ArrayList<Integer> validAssignments(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key){
+		Variable var = vars.get(key);//determine the variable identified by the key
+		ArrayList<Integer> validAssignments = var.getValues();//create an ArrayList of valid assignments for var. Defaults to all possible assignments of var
+		
+		for(Constraint c : cons){//for every constraint
+			if(c.getLhs() == var && c.getRhs().getAssignment() != 2147483647){//if the constraint has var as its left side and an assigned variable on its right
+				for(Integer v : validAssignments){//for all possible values of var
+					if (!c.eval(v, c.getRhs().getAssignment())){//if that value would invalidate this constraint, remove it from validAssignments
+						validAssignments.remove(v);//POSSIBLE BUG: This might delete the object at index v, instead of object v
+					}
+				}
+			}
+			else if(c.getRhs() == var && c.getLhs().getAssignment() != 2147483647){//else if the constraint has var as its right side and an assigned variable on its left
+				for(int v : validAssignments){//for all possible values of var
+					if (!c.eval(v, c.getLhs().getAssignment())){//if that value would invalidate this constraint, remove it from validAssignments
+						validAssignments.remove(v);
+					}
+				}
+			}
+		}
+		
+		return validAssignments;//return all assignments to var which would not invalidate any constraints
+	}
 }
 
