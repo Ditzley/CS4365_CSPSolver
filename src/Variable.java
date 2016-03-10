@@ -5,6 +5,8 @@ public class Variable implements Comparable<Variable> {
     private String name;
     private ArrayList<Integer> values;
     private int assignment;
+    private int howConstrained;
+    private int howConstraining;
     
     Variable(String newName, ArrayList<Integer> newValues) {
         this.name = newName;
@@ -43,6 +45,14 @@ public class Variable implements Comparable<Variable> {
         return this.values;
     }
     
+    public int getHowConstrained(){
+    	return this.howConstrained;
+    }
+    
+    public int getHowConstraining(){
+    	return this.howConstraining;
+    }
+    
     /*
      * Setters
      */
@@ -57,6 +67,14 @@ public class Variable implements Comparable<Variable> {
     
     public void setAssignment(int assignment) {
         this.assignment = assignment;
+    }
+    
+    public void setHowConstrained(int howConstrained){
+    	this.howConstrained = howConstrained;
+    }
+    
+    public void setHowConstraining(int howConstraining){
+    	this.howConstraining = howConstraining;
     }
     
     /*

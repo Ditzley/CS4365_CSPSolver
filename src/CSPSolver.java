@@ -29,6 +29,7 @@ public class CSPSolver {
                 vars.put(name, new Variable(name, values));
             }
             
+            br.close();
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -56,12 +57,16 @@ public class CSPSolver {
                 cons.add(new Constraint(lhs, rhs, op));
             }
             
+            br.close();
+            
         } catch(IOException e) {
             e.printStackTrace();
         }
         
         // Forward Checking or Not
 		boolean forwardChecking = (args[2] == "fc");
+		
+		//Assigning
     }
     
 }
