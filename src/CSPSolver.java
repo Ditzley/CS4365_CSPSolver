@@ -68,17 +68,16 @@ public class CSPSolver {
 		
 		//Assigning How Constrained Each Variable Is
 		
-		/*Here, I'm establishing an array to hold how many times any variable appears
-		 * on the right side of a constraint. I'm using an array, and not an arrayList,
-		 * because I know exactly how long I need this array to be, and it won't need to
-		 * grow or shrink ever
-		 * 
-		 */
-		int numVariables = vars.size();
-		int[] constrained = new int[numVariables];
+		for (Constraint c : cons){
+			Variable constrainedVar = c.getRhs();
+			(vars.get(constrainedVar)).incrementHowConstrained();
+		}
 		
-		for(int entry : constrained){
-			entry = 0;
+		//Assigning How Constraining Each Variable Is
+		
+		for (Constraint C : cons){
+			Variable constrainingVar = C.getLhs();
+			(vars.get(constrainingVar)).incrementHowConstraining();
 		}
 		
 		
