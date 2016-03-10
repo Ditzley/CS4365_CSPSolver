@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.TreeMap;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 public class CSPSolver {
     
@@ -68,6 +71,34 @@ public class CSPSolver {
 		
 		
     }
+    
+    String returnMostConstrained(TreeMap<String, Variable> vars, ArrayList<Constraint> cons){
+		int minValues = 100000000;
+		String mostConstrained = "";
+		int possibleValues;
+    	
+    	for(Entry<String, Variable> entry : vars.entrySet()){
+			possibleValues = ((entry.getValue()).getValues()).size();
+			//This line is terrible. It sets possibleVaules to the number of possible
+			//values that the variable can take. Java's dumb.
+			if (possibleValues < minValues){
+				minValues = possibleValues;
+				mostConstrained = entry.getKey();
+			}
+			
+			else if (possibleValues == minValues){
+				mostConstrained = returnMostConstraining(vars, cons, mostConstrained, entry.getKey());
+			}
+		}
+  
+    	return mostConstrained;
+    }
+
+	private String returnMostConstraining(TreeMap<String, Variable> vars2,
+			ArrayList<Constraint> cons2, String mostConstrained, String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }
 
