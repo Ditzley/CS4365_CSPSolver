@@ -102,15 +102,38 @@ public class CSPSolver {
 		int var2Count = 0;
 		//These ints hold how many constraings each Variable features in, in which it constrains a currently unassigned variable
 		
-		for(Constraint c : ArrayList<Constraint> cons){
-			if( (c.getLhs == var1 && (vars.get((c.getLhs).getName)).getAssignment == null) || (RHS of c is var1 and LHS of c is unassigned)){
+		for(Constraint c : cons){
+			if((c.getLhs() == var1 && (vars.get((c.getRhs()).getName())).getAssignment() == 2147483647) || (c.getRhs() == var1 && (vars.get((c.getLhs()).getName())).getAssignment() == 2147483647)){
+				/* Ooh, boy, this nightmare of a line probably needs explaining.
+				 * 
+				 * Basically what this is saying is that if the left hand side of the constraint is var1, and the right hand side is an unassigned variable, or if the sides are flipped, this is true
+				 * The reason that looks so gruesome is I had to get the rhs of c, a variable, get it's name, find that same Variable in the TreeMap, then check that Variable's assignment to see if it's
+				 * the default, the max value of an unsigned int (which, admittedly, I'm banking on one of the test files including)
+				 */
 				
+				var1Count++;//lol
 			}
-			else if((LHS of c is var1 and RHS of c is unassigned) || (RHS of c is var1 and LHS of c is unassigned)){
+			
+			else if((c.getLhs() == var2 && (vars.get((c.getRhs()).getName())).getAssignment() == 2147483647) || (c.getRhs() == var2 && (vars.get((c.getLhs()).getName())).getAssignment() == 2147483647)){
+				//DON'T PANIC. Same line as above, just replace all instances of var1 with var2. Don't panic.
 				
+				var2Count++;
 			}
+
 		}
-		return null;
+
+		if(var1Count > var2Count){//If var1 is more constraining than var 2
+			return key1;
+		}
+		else if (var1Count < var2Count){//Else if var2 is more constraining than var1
+			return key2;
+		}
+		else if (key1.charAt(0) < key2.charAt(0)){//If both values are equally constraining, if key1 is alphabetically before key2
+			return key1;
+		}
+		else {//else if key2 is alphabetically before key1
+			return key2;
+		}
 	}
     
 }
