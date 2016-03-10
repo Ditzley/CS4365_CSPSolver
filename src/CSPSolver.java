@@ -66,20 +66,6 @@ public class CSPSolver {
         // Forward Checking or Not
 		boolean forwardChecking = (args[2] == "fc");
 		
-		//Assigning How Constrained Each Variable Is
-		
-		for (Constraint c : cons){
-			Variable constrainedVar = c.getRhs();
-			(vars.get(constrainedVar)).incrementHowConstrained();
-		}
-		
-		//Assigning How Constraining Each Variable Is
-		
-		for (Constraint C : cons){
-			Variable constrainingVar = C.getLhs();
-			(vars.get(constrainingVar)).incrementHowConstraining();
-		}
-		
 		
     }
     

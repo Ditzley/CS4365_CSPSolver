@@ -69,12 +69,12 @@ public class Variable implements Comparable<Variable> {
         this.assignment = assignment;
     }
     
-    public void incrementHowConstrained(){
-    	this.howConstrained++;
+    public void setHowConstrained(int c){
+    	this.howConstrained = c;
     }
     
-    public void incrementHowConstraining(){
-    	this.howConstraining++;
+    public void setHowConstraining(int c){
+    	this.howConstraining = c;
     }
     
     /*
