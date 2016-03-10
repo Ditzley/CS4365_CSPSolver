@@ -66,7 +66,22 @@ public class CSPSolver {
         // Forward Checking or Not
 		boolean forwardChecking = (args[2] == "fc");
 		
-		//Assigning
+		//Assigning How Constrained Each Variable Is
+		
+		/*Here, I'm establishing an array to hold how many times any variable appears
+		 * on the right side of a constraint. I'm using an array, and not an arrayList,
+		 * because I know exactly how long I need this array to be, and it won't need to
+		 * grow or shrink ever
+		 * 
+		 */
+		int numVariables = vars.size();
+		int[] constrained = new int[numVariables];
+		
+		for(int entry : constrained){
+			entry = 0;
+		}
+		
+		
     }
     
 }
