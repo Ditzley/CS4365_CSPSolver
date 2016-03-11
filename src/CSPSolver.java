@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 public class CSPSolver {
     
     private static TreeMap<String, Variable> vars;
@@ -87,6 +85,10 @@ public class CSPSolver {
             return true;
         }
         Variable var = returnMostConstrained(vars, cons);
+        if(var == null){
+        	return false;
+        }
+        
         Integer value;
         // goes in order from least constraining to most constraining
         while((value = leastConstrainingValue(vars, cons, var.getName())) != null) {
@@ -116,6 +118,10 @@ public class CSPSolver {
         // forward check
         
         Variable var = returnMostConstrained(vars, cons);
+        if(var == null){
+        	return false;
+        }
+        
         Integer value;
         while((value = leastConstrainingValue(vars, cons, var.getName())) != null) {
             
