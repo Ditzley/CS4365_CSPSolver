@@ -100,7 +100,7 @@ public class CSPSolver {
 		
 		int var1Count = 0;
 		int var2Count = 0;
-		//These ints hold how many constraings each Variable features in, in which it constrains a currently unassigned variable
+		//These ints hold how many constraints each Variable features in, in which it constrains a currently unassigned variable
 		
 		for(Constraint c : cons){
 			if((c.getLhs() == var1 && (vars.get((c.getRhs()).getName())).getAssignment() == 2147483647) || (c.getRhs() == var1 && (vars.get((c.getLhs()).getName())).getAssignment() == 2147483647)){
@@ -145,6 +145,57 @@ public class CSPSolver {
 	 * 	- See how many values of the other, unassigned value become invalid if v is given the chosen value
 	 * 4. Assign v the value which is the least constraining
 	 */
+	
+	Integer leastConstrainingValue(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key){
+		ArrayList<Integer> validAssignments = validAssignments(vars, cons, key);
+		ArrayList<Constraint> relevantConstraints = new ArrayList<Constraint>();
+		Variable var = vars.get(key);
+		
+		for(Constraint c : cons){//for every constraint
+			if(c.getLhs() == var || c.getRhs() == var){//if one of its sides is our variable
+				if(c.getLhs().getAssignment() == 2147483647 || c.getRhs().getAssignment() == 2147483647){//and the other is unassigned
+					relevantConstraints.add(c);//mark that constraint as relevant
+				}
+			}
+		}
+		
+		int leastInvalidatedValues = 10000000;
+		int leastConstrainingValue = 10000000;
+		Variable unassignedVar;
+		
+		for(Integer v : validAssignments){
+			int invalidatedValues = 0;
+			int value = v.intValue();
+			for(Constraint r : relevantConstraints){
+				if(r.getLhs() == var){
+					unassignedVar = r.getRhs();
+					for(Integer p : unassignedVar.getValues()){
+						if(!r.eval(value, p.intValue())){
+							invalidatedValues++;
+						}
+					}
+				}
+				else{
+					unassignedVar = r.getLhs();
+					for(Integer p : unassignedVar.getValues()){
+						if(!r.eval(p.intValue(), value)){
+							invalidatedValues++;
+						}
+					}
+				}
+			}
+			
+			if(invalidatedValues < leastInvalidatedValues){
+				leastInvalidatedValues = invalidatedValues;
+				leastConstrainingValue = value;
+			}
+		}
+		
+		return leastConstrainingValue;
+		
+		
+		
+	}
     
 	ArrayList<Integer> validAssignments(TreeMap<String, Variable> vars, ArrayList<Constraint> cons, String key){
 		Variable var = vars.get(key);//determine the variable identified by the key
@@ -160,7 +211,7 @@ public class CSPSolver {
 			}
 			else if(c.getRhs() == var && c.getLhs().getAssignment() != 2147483647){//else if the constraint has var as its right side and an assigned variable on its left
 				for(int v : validAssignments){//for all possible values of var
-					if (!c.eval(v, c.getLhs().getAssignment())){//if that value would invalidate this constraint, remove it from validAssignments
+					if (!c.eval(c.getLhs().getAssignment(), v)){//if that value would invalidate this constraint, remove it from validAssignments
 						validAssignments.remove(v);
 					}
 				}
