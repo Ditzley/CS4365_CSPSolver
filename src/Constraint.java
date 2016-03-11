@@ -1,3 +1,4 @@
+import java.util.TreeMap;
 
 public class Constraint {
     private Variable lhs;
@@ -20,6 +21,18 @@ public class Constraint {
     
     public boolean hasVariable(Variable x) {
         return x.equals(this.rhs) || x.equals(this.lhs);
+    }
+    
+    public boolean validifyAssignment(TreeMap<String, Variable> vars) {
+        // if either is unassigned, fail
+        int rhs = vars.get(this.rhs.getName()).getAssignment();
+        int lhs = vars.get(this.lhs.getName()).getAssignment();
+        if(rhs == Integer.MAX_VALUE || lhs == Integer.MAX_VALUE) {
+            return false;
+        } else {
+            return this.eval(rhs, lhs);
+        }
+        
     }
     
     public boolean eval(int x, int y) {

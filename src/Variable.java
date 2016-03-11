@@ -5,12 +5,12 @@ public class Variable implements Comparable<Variable> {
     private String name;
     private ArrayList<Integer> values;
     private int assignment;
-
     
-    Variable(String newName, ArrayList<Integer> newValues) {
+    
+    public Variable(String newName, ArrayList<Integer> newValues) {
         this.name = newName;
         this.values = newValues;
-        this.assignment = 2147483647;
+        this.assignment = Integer.MAX_VALUE;
     }
     
     public void assign(int x) {
@@ -27,6 +27,10 @@ public class Variable implements Comparable<Variable> {
         } else {
             return false;
         }
+    }
+    
+    public void invalidate(int value) {
+        this.values.remove(value);
     }
     
     /*
@@ -62,7 +66,7 @@ public class Variable implements Comparable<Variable> {
         this.assignment = assignment;
     }
     
-
+    
     /*
      * Comparisons
      */
