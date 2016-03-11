@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 public class CSPSolver {
     
     private static TreeMap<String, Variable> vars;
@@ -154,7 +156,7 @@ public class CSPSolver {
         int possibleValues;
         
         for(Entry<String, Variable> entry : vars.entrySet()) {
-        	if(entry.getValue().getAssignment() != Integer.MAX_VALUE) {
+        	if(entry.getValue().getAssignment() == Integer.MAX_VALUE) {
 	            possibleValues = ((entry.getValue()).getValues()).size();
 	            // This line is terrible. It sets possibleVaules to the number of possible
 	            // values that the variable can take. Java's dumb.
@@ -296,6 +298,7 @@ public class CSPSolver {
         ArrayList<Integer> validAssignments = var.getValues();// create an ArrayList of valid
                                                               // assignments for var. Defaults to
                                                               // all possible assignments of var
+        ArrayList<Integer> invalidAssignments = new ArrayList<Integer>();
         
         for(Constraint c : cons) {// for every constraint
             if(c.getLhs() == var && c.getRhs().getAssignment() != Integer.MAX_VALUE) {// if the
@@ -308,8 +311,8 @@ public class CSPSolver {
                     if(!c.eval(v, c.getRhs().getAssignment())) {// if that value would invalidate
                                                                 // this constraint, remove it from
                                                                 // validAssignments
-                        validAssignments.remove(v);// POSSIBLE BUG: This might delete the object at
-                                                   // index v, instead of object v
+                    	Integer i = new Integer(v);
+                        invalidAssignments.add(i);
                     }
                 }
                 // else if the constraint has var as its right side and an assigned variable on its
@@ -319,11 +322,15 @@ public class CSPSolver {
                     // if that value would invalidate this constraint, remove it from
                     // validAssignments
                     if(!c.eval(c.getLhs().getAssignment(), v)) {
-                        validAssignments.remove(v);
+                    	Integer i = new Integer(v);
+                        invalidAssignments.add(i);
                     }
                 }
             }
         }
+        
+        validAssignments.removeAll(invalidAssignments);//Java throws an exception if you try to edit a Collection you are iterating over.
+        //Thus, we collect all of our invalid assignments into a seperate array, and then xor it with validAssignments to get our remaining valid value assignments.
         
         return validAssignments;// return all assignments to var which would not invalidate any
                                 // constraints
