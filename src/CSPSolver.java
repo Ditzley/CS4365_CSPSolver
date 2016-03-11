@@ -154,16 +154,18 @@ public class CSPSolver {
         int possibleValues;
         
         for(Entry<String, Variable> entry : vars.entrySet()) {
-            possibleValues = ((entry.getValue()).getValues()).size();
-            // This line is terrible. It sets possibleVaules to the number of possible
-            // values that the variable can take. Java's dumb.
-            if(possibleValues < minValues) {
-                minValues = possibleValues;
-                mostConstrained = entry.getValue();
-            } else if(possibleValues == minValues) {
-                mostConstrained = returnMostConstraining(vars, cons, mostConstrained.getName(),
-                        entry.getKey());
-            }
+        	if(entry.getValue().getAssignment() != Integer.MAX_VALUE) {
+	            possibleValues = ((entry.getValue()).getValues()).size();
+	            // This line is terrible. It sets possibleVaules to the number of possible
+	            // values that the variable can take. Java's dumb.
+	            if(possibleValues < minValues) {
+	                minValues = possibleValues;
+	                mostConstrained = entry.getValue();
+	            } else if(possibleValues == minValues) {
+	                mostConstrained = returnMostConstraining(vars, cons, mostConstrained.getName(),
+	                        entry.getKey());
+	            }
+        	}
         }
         
         return mostConstrained;
