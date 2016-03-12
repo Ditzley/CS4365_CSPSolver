@@ -1,44 +1,18 @@
 import java.util.ArrayList;
 
-
 public class Variable implements Comparable<Variable> {
     private String name;
     private ArrayList<Integer> values;
+    private ArrayList<Integer> legalValues;
+    private boolean assigned;
     private int assignment;
     
-    
-    public Variable(String newName, ArrayList<Integer> newValues) {
-        this.name = newName;
-        this.values = newValues;
-        this.assignment = Integer.MAX_VALUE;
-    }
-    
-    public void assign(int x) {
-        if(this.isValid(x)) {
-            setAssignment(x);
-        } else {
-            System.out.println("Error: Invalid assignment");
-        }
-    }
-    
-    public boolean isValid(int x) {
-        if(this.values.contains(x)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public void invalidate(int value) {
-        this.values.remove(value);
-    }
-    
-    /*
-     * Getters
-     */
-    
-    public int getAssignment() {
-        return assignment;
+    public Variable(String name, ArrayList<Integer> values) {
+        this.name = name;
+        this.values = values;
+        this.legalValues = values; // at the beginning all values are legal
+        this.assigned = false;
+        this.assignment = Integer.MAX_VALUE; // value doesn't really matter
     }
     
     public String getName() {
@@ -49,27 +23,29 @@ public class Variable implements Comparable<Variable> {
         return this.values;
     }
     
+    public boolean isAssigned() {
+        return this.assigned;
+    }
+    
+    public ArrayList<Integer> getLegalValues() {
+        return this.legalValues;
+    }
+    
+    public void assign(int value) {
+        this.assignment = value;
+        this.assigned = true;
+    }
+    
+    public void unassign() {
+        this.assigned = false;
+    }
     
     /*
-     * Setters
+     * Integer instead of int because remove(int) removes at index
      */
-    
-    public void setName(String name) {
-        this.name = name;
+    public void invalidateValue(Integer value) {
+        this.legalValues.remove(value);
     }
-    
-    public void setValues(ArrayList<Integer> values) {
-        this.values = values;
-    }
-    
-    public void setAssignment(int assignment) {
-        this.assignment = assignment;
-    }
-    
-    
-    /*
-     * Comparisons
-     */
     
     @Override
     public int compareTo(Variable other) {
@@ -79,4 +55,10 @@ public class Variable implements Comparable<Variable> {
     public boolean equals(Variable other) {
         return this.name.equals(other.name);
     }
+    
+    public int getAssignment() {
+        return assignment;
+    }
+    
+    
 }
